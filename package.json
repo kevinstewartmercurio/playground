@@ -1,0 +1,25 @@
+{
+  "name": "playground",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/tailwind": "^6.0.1",
+    "astro": "^5.5.4",
+    "tailwind": "^4.0.0",
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.5",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.11"
+  }
+}
