@@ -1,0 +1,162 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Chapter 1 | Playground">
+  <main class="min-h-screen w-full">
+    <div id="chapter-1-canvas-container" class="min-h-screen w-full">
+      <canvas></canvas>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import * as THREE from "three";
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+  import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
+  import GUI from "lil-gui";
+
+  const canvasContainer = document.querySelector("#chapter-1-canvas-container");
+  const canvas = document.querySelector("#chapter-1-canvas-container canvas");
+
+  if (
+    canvasContainer instanceof HTMLDivElement &&
+    canvas instanceof HTMLCanvasElement
+  ) {
+    // debug ui
+    const gui = new GUI();
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "h") {
+        gui.show(gui._hidden);
+      }
+    });
+
+    // scene
+    const scene = new THREE.Scene();
+
+    const canvasDimensions = {
+      width: canvasContainer.getBoundingClientRect().width,
+      height: canvasContainer.getBoundingClientRect().height,
+    };
+
+    window.addEventListener("resize", () => {
+      canvasDimensions.width = canvasContainer.getBoundingClientRect().width;
+      canvasDimensions.height = canvasContainer.getBoundingClientRect().height;
+
+      camera.aspect = canvasDimensions.width / canvasDimensions.height;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(canvasDimensions.width, canvasDimensions.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
+
+    // camera
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      canvasDimensions.width / canvasDimensions.height,
+      0.1,
+      100,
+    );
+    camera.position.z = -8;
+    camera.lookAt(0, 0, 0);
+    scene.add(camera);
+
+    // controls
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+
+    // environment map
+    const rgbeLoader = new RGBELoader();
+    rgbeLoader.load("src/hdrs/studio.hdr", (envMap) => {
+      envMap.mapping = THREE.EquirectangularReflectionMapping;
+
+      scene.background = envMap;
+      scene.environment = envMap;
+    });
+
+    // renderer
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+    });
+    renderer.setSize(canvasDimensions.width, canvasDimensions.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // meshes
+    const ball = new THREE.SphereGeometry(0.5, 32, 32);
+    const ballMaterial = new THREE.MeshStandardMaterial({
+      metalness: 1,
+      roughness: 0.1,
+    });
+
+    const ballTweaks = gui.addFolder("ball");
+    ballTweaks.add(ballMaterial, "metalness").min(0).max(1).step(0.0001);
+    ballTweaks.add(ballMaterial, "roughness").min(0).max(1).step(0.0001);
+
+    const [sphere1, sphere2, sphere3, sphere4, sphere5] = Array(5)
+      .fill(null)
+      .map(() => new THREE.Mesh(ball, ballMaterial));
+    scene.add(sphere1, sphere2, sphere3, sphere4, sphere5);
+    sphere1.position.x = -2;
+    sphere2.position.x = -1;
+    sphere4.position.x = 1;
+    sphere5.position.x = 2;
+
+    const baseLength = 6.75;
+    const baseWidth = 3;
+    const baseDepth = 0.25;
+    const baseExtrudeShape = new THREE.Shape();
+    baseExtrudeShape.moveTo(0, 0);
+    baseExtrudeShape.lineTo(0, baseWidth);
+    baseExtrudeShape.lineTo(baseLength, baseWidth);
+    baseExtrudeShape.lineTo(baseLength, 0);
+    baseExtrudeShape.lineTo(0, 0);
+    const baseExtrudeSettings = {
+      steps: 2,
+      depth: baseDepth,
+      bevelEnabled: true,
+      bevelThickness: 0.15,
+      bevelSize: 0.25,
+      bevelOffset: 0,
+      bevelSegments: 1,
+    };
+
+    const baseExtrudeGeometry = new THREE.ExtrudeGeometry(
+      baseExtrudeShape,
+      baseExtrudeSettings,
+    );
+    const baseMaterial = new THREE.MeshStandardMaterial({
+      color: "black",
+      metalness: 0.85,
+      roughness: 0.1,
+    });
+    const baseExtrude = new THREE.Mesh(baseExtrudeGeometry, baseMaterial);
+    const baseBox = new THREE.Mesh(
+      new THREE.BoxGeometry(baseLength + 0.5, baseDepth, baseWidth + 0.5),
+      baseMaterial,
+    );
+    scene.add(baseExtrude, baseBox);
+
+    baseExtrude.position.x = -1 * (baseLength / 2);
+    baseExtrude.position.y = -1.5;
+    baseExtrude.position.z = -1 * (baseWidth / 2);
+    baseExtrude.rotation.x = Math.PI / 2;
+    baseBox.position.y = -1.8;
+
+    const baseTweaks = gui.addFolder("base");
+    baseTweaks.add(baseMaterial, "metalness").min(0).max(1).step(0.0001);
+    baseTweaks.add(baseMaterial, "roughness").min(0).max(1).step(0.0001);
+    baseTweaks.addColor(baseMaterial, "color");
+
+    // tick
+    const clock = new THREE.Clock();
+    const tick = () => {
+      const elapsedTime = clock.getElapsedTime();
+
+      controls.update();
+      renderer.render(scene, camera);
+      window.requestAnimationFrame(tick);
+    };
+
+    tick();
+  }
+</script>
