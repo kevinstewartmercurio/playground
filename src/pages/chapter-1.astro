@@ -67,7 +67,7 @@ import Layout from "../layouts/Layout.astro";
 
     // environment map
     const rgbeLoader = new RGBELoader();
-    rgbeLoader.load("src/hdrs/studio.hdr", (envMap) => {
+    rgbeLoader.load("/hdrs/studio.hdr", (envMap) => {
       envMap.mapping = THREE.EquirectangularReflectionMapping;
 
       scene.background = envMap;
