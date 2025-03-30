@@ -105,41 +105,32 @@ import Layout from "../layouts/Layout.astro";
     sphere5.position.x = 2;
 
     // animation
-    const t = 1.75;
-
-    gsap // sphere 1 timeline
+    gsap
       .timeline({
-        ease: "sinze.inOut",
         repeat: -1,
-        repeatDelay: t,
+        repeatDelay: 0.08,
       })
       .to(sphere1.position, {
-        duration: t / 2,
+        duration: 0.75,
         ease: "power1.out",
         x: -4.5,
         y: 0.5,
       })
       .to(sphere1.position, {
-        duration: t / 2,
+        duration: 0.75,
         ease: "power2.in",
         x: -2,
         y: 0,
-      });
-    gsap // sphere 5 timeline
-      .timeline({
-        ease: "sinze.inOut",
-        delay: t,
-        repeat: -1,
-        repeatDelay: t,
       })
       .to(sphere5.position, {
-        duration: t / 2,
+        delay: 0.08,
+        duration: 0.75,
         ease: "power1.out",
         x: 4.5,
         y: 0.5,
       })
       .to(sphere5.position, {
-        duration: t / 2,
+        duration: 0.75,
         ease: "power2.in",
         x: 2,
         y: 0,
