@@ -58,7 +58,7 @@ import Layout from "../layouts/Layout.astro";
       0.1,
       100,
     );
-    camera.position.y = 1;
+    camera.position.y = 3;
     camera.position.z = -8;
     camera.lookAt(0, 0, 0);
     scene.add(camera);
@@ -108,7 +108,7 @@ import Layout from "../layouts/Layout.astro";
     gsap
       .timeline({
         repeat: -1,
-        repeatDelay: 0.08,
+        repeatDelay: 0.065,
       })
       .to(sphere1.position, {
         duration: 0.75,
@@ -123,7 +123,7 @@ import Layout from "../layouts/Layout.astro";
         y: 0,
       })
       .to(sphere5.position, {
-        delay: 0.08,
+        delay: 0.065,
         duration: 0.75,
         ease: "power1.out",
         x: 4.5,
@@ -183,10 +183,110 @@ import Layout from "../layouts/Layout.astro";
     baseTweaks.add(baseMaterial, "roughness").min(0).max(1).step(0.0001);
     baseTweaks.addColor(baseMaterial, "color");
 
+    // tubes
+    const tubeCurve1 = new THREE.LineCurve3(
+      new THREE.Vector3(2.875, -1.5, -1),
+      new THREE.Vector3(2.875, 2, -1),
+    );
+    const tube1 = new THREE.Mesh(
+      new THREE.TubeGeometry(tubeCurve1, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+    const tubeCurve2 = new THREE.LineCurve3(
+      new THREE.Vector3(2.375, 2.5, -1),
+      new THREE.Vector3(-2.375, 2.5, -1),
+    );
+    const tube2 = new THREE.Mesh(
+      new THREE.TubeGeometry(tubeCurve2, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+    const tubeCurve3 = new THREE.LineCurve3(
+      new THREE.Vector3(-2.875, -1.5, -1),
+      new THREE.Vector3(-2.875, 2, -1),
+    );
+    const tube3 = new THREE.Mesh(
+      new THREE.TubeGeometry(tubeCurve3, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+    const tubeCurve4 = new THREE.LineCurve3(
+      new THREE.Vector3(2.875, -1.5, 1),
+      new THREE.Vector3(2.875, 2, 1),
+    );
+    const tube4 = new THREE.Mesh(
+      new THREE.TubeGeometry(tubeCurve4, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+    const tubeCurve5 = new THREE.LineCurve3(
+      new THREE.Vector3(2.375, 2.5, 1),
+      new THREE.Vector3(-2.375, 2.5, 1),
+    );
+    const tube5 = new THREE.Mesh(
+      new THREE.TubeGeometry(tubeCurve5, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+    const tubeCurve6 = new THREE.LineCurve3(
+      new THREE.Vector3(-2.875, -1.5, 1),
+      new THREE.Vector3(-2.875, 2, 1),
+    );
+    const tube6 = new THREE.Mesh(
+      new THREE.TubeGeometry(tubeCurve6, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+
+    const angleCurve1 = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(2.875, 2, -1),
+      new THREE.Vector3(2.875, 2.5, -1),
+      new THREE.Vector3(2.375, 2.5, -1),
+    );
+    const angle1 = new THREE.Mesh(
+      new THREE.TubeGeometry(angleCurve1, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+    const angleCurve2 = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(-2.875, 2, -1),
+      new THREE.Vector3(-2.875, 2.5, -1),
+      new THREE.Vector3(-2.375, 2.5, -1),
+    );
+    const angle2 = new THREE.Mesh(
+      new THREE.TubeGeometry(angleCurve2, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+    const angleCurve3 = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(2.875, 2, 1),
+      new THREE.Vector3(2.875, 2.5, 1),
+      new THREE.Vector3(2.375, 2.5, 1),
+    );
+    const angle3 = new THREE.Mesh(
+      new THREE.TubeGeometry(angleCurve3, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+    const angleCurve4 = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(-2.875, 2, 1),
+      new THREE.Vector3(-2.875, 2.5, 1),
+      new THREE.Vector3(-2.375, 2.5, 1),
+    );
+    const angle4 = new THREE.Mesh(
+      new THREE.TubeGeometry(angleCurve4, 20, 0.125, 8, false),
+      ballMaterial,
+    );
+
+    scene.add(
+      tube1,
+      tube2,
+      tube3,
+      tube4,
+      tube5,
+      tube6,
+      angle1,
+      angle2,
+      angle3,
+      angle4,
+    );
+
     // tick
     const clock = new THREE.Clock();
     const tick = () => {
-      const elapsedTime = clock.getElapsedTime();
+      // const elapsedTime = clock.getElapsedTime();
 
       controls.update();
       renderer.render(scene, camera);
