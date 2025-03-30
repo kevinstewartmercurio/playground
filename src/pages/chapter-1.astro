@@ -26,6 +26,7 @@ import Layout from "../layouts/Layout.astro";
   ) {
     // debug ui
     const gui = new GUI();
+    gui.hide();
     window.addEventListener("keydown", (e) => {
       if (e.key === "h") {
         gui.show(gui._hidden);
@@ -90,7 +91,7 @@ import Layout from "../layouts/Layout.astro";
       roughness: 0.1,
     });
 
-    const ballTweaks = gui.addFolder("ball");
+    const ballTweaks = gui.addFolder("ball / bar");
     ballTweaks.add(ballMaterial, "metalness").min(0).max(1).step(0.0001);
     ballTweaks.add(ballMaterial, "roughness").min(0).max(1).step(0.0001);
     ballTweaks.addColor(ballMaterial, "color");
@@ -103,38 +104,6 @@ import Layout from "../layouts/Layout.astro";
     sphere2.position.x = -1;
     sphere4.position.x = 1;
     sphere5.position.x = 2;
-
-    // animation
-    gsap
-      .timeline({
-        repeat: -1,
-        repeatDelay: 0.065,
-      })
-      .to(sphere1.position, {
-        duration: 0.75,
-        ease: "power1.out",
-        x: -4.5,
-        y: 0.5,
-      })
-      .to(sphere1.position, {
-        duration: 0.75,
-        ease: "power2.in",
-        x: -2,
-        y: 0,
-      })
-      .to(sphere5.position, {
-        delay: 0.065,
-        duration: 0.75,
-        ease: "power1.out",
-        x: 4.5,
-        y: 0.5,
-      })
-      .to(sphere5.position, {
-        duration: 0.75,
-        ease: "power2.in",
-        x: 2,
-        y: 0,
-      });
 
     // base
     const baseLength = 6.75;
@@ -283,8 +252,227 @@ import Layout from "../layouts/Layout.astro";
       angle4,
     );
 
+    // strings
+    const stringMaterialObj = {
+      color: "#D9D9D9",
+    };
+    const stringMaterial = new THREE.MeshStandardMaterial({
+      color: stringMaterialObj.color,
+      transparent: true,
+      opacity: 0.4,
+    });
+
+    const stringTweaks = gui.addFolder("string");
+    stringTweaks.add(stringMaterial, "opacity").min(0).max(1).step(0.001);
+    stringTweaks.addColor(stringMaterialObj, "color").onChange(() => {
+      stringMaterial.color.set(stringMaterialObj.color);
+    });
+
+    let stringCurve11 = new THREE.LineCurve3(
+      new THREE.Vector3(-2, 0, -0.125),
+      new THREE.Vector3(-2, 2.375, -1),
+    );
+    const string11 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve11, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+    let stringCurve12 = new THREE.LineCurve3(
+      new THREE.Vector3(-2, 0, 0.125),
+      new THREE.Vector3(-2, 2.375, 1),
+    );
+    const string12 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve12, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+    const stringCurve21 = new THREE.LineCurve3(
+      new THREE.Vector3(-1, 0, -0.125),
+      new THREE.Vector3(-1, 2.375, -1),
+    );
+    const string21 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve21, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+    const stringCurve22 = new THREE.LineCurve3(
+      new THREE.Vector3(-1, 0, 0.125),
+      new THREE.Vector3(-1, 2.375, 1),
+    );
+    const string22 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve22, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+    const stringCurve31 = new THREE.LineCurve3(
+      new THREE.Vector3(0, 0, -0.125),
+      new THREE.Vector3(0, 2.375, -1),
+    );
+    const string31 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve31, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+    const stringCurve32 = new THREE.LineCurve3(
+      new THREE.Vector3(0, 0, 0.125),
+      new THREE.Vector3(0, 2.375, 1),
+    );
+    const string32 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve32, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+    const stringCurve41 = new THREE.LineCurve3(
+      new THREE.Vector3(1, 0, -0.125),
+      new THREE.Vector3(1, 2.375, -1),
+    );
+    const string41 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve41, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+    const stringCurve42 = new THREE.LineCurve3(
+      new THREE.Vector3(1, 0, 0.125),
+      new THREE.Vector3(1, 2.375, 1),
+    );
+    const string42 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve42, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+    let stringCurve51 = new THREE.LineCurve3(
+      new THREE.Vector3(2, 0, -0.125),
+      new THREE.Vector3(2, 2.375, -1),
+    );
+    const string51 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve51, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+    let stringCurve52 = new THREE.LineCurve3(
+      new THREE.Vector3(2, 0, 0.125),
+      new THREE.Vector3(2, 2.375, 1),
+    );
+    const string52 = new THREE.Mesh(
+      new THREE.TubeGeometry(stringCurve52, 20, 0.005, 8, false),
+      stringMaterial,
+    );
+
+    scene.add(
+      string11,
+      string12,
+      string21,
+      string22,
+      string31,
+      string32,
+      string41,
+      string42,
+      string51,
+      string52,
+    );
+
+    // animation
+    const updateString11 = () => {
+      stringCurve11 = new THREE.LineCurve3(
+        new THREE.Vector3(sphere1.position.x, sphere1.position.y, -0.125),
+        new THREE.Vector3(-2, 2.375, -1),
+      );
+
+      string11.geometry.dispose();
+      string11.geometry = new THREE.TubeGeometry(
+        stringCurve11,
+        20,
+        0.005,
+        8,
+        false,
+      );
+    };
+    const updateString12 = () => {
+      stringCurve12 = new THREE.LineCurve3(
+        new THREE.Vector3(sphere1.position.x, sphere1.position.y, 0.125),
+        new THREE.Vector3(-2, 2.375, 1),
+      );
+
+      string12.geometry.dispose();
+      string12.geometry = new THREE.TubeGeometry(
+        stringCurve12,
+        20,
+        0.005,
+        8,
+        false,
+      );
+    };
+    const updateString51 = () => {
+      stringCurve51 = new THREE.LineCurve3(
+        new THREE.Vector3(sphere5.position.x, sphere5.position.y, -0.125),
+        new THREE.Vector3(2, 2.375, -1),
+      );
+
+      string51.geometry.dispose();
+      string51.geometry = new THREE.TubeGeometry(
+        stringCurve51,
+        20,
+        0.005,
+        8,
+        false,
+      );
+    };
+    const updateString52 = () => {
+      stringCurve52 = new THREE.LineCurve3(
+        new THREE.Vector3(sphere5.position.x, sphere5.position.y, 0.125),
+        new THREE.Vector3(2, 2.375, 1),
+      );
+
+      string52.geometry.dispose();
+      string52.geometry = new THREE.TubeGeometry(
+        stringCurve52,
+        20,
+        0.005,
+        8,
+        false,
+      );
+    };
+
+    gsap
+      .timeline({
+        repeat: -1,
+        repeatDelay: 0.065,
+      })
+      .to(sphere1.position, {
+        duration: 0.75,
+        ease: "power1.out",
+        onUpdate: () => {
+          updateString11();
+          updateString12();
+        },
+        x: -4.5,
+        y: 0.5,
+      })
+      .to(sphere1.position, {
+        duration: 0.75,
+        ease: "power2.in",
+        onUpdate: () => {
+          updateString11();
+          updateString12();
+        },
+        x: -2,
+        y: 0,
+      })
+      .to(sphere5.position, {
+        delay: 0.065,
+        duration: 0.75,
+        ease: "power1.out",
+        onUpdate: () => {
+          updateString51();
+          updateString52();
+        },
+        x: 4.5,
+        y: 0.5,
+      })
+      .to(sphere5.position, {
+        duration: 0.75,
+        ease: "power2.in",
+        onUpdate: () => {
+          updateString51();
+          updateString52();
+        },
+        x: 2,
+        y: 0,
+      });
+
     // tick
-    const clock = new THREE.Clock();
+    // const clock = new THREE.Clock();
     const tick = () => {
       // const elapsedTime = clock.getElapsedTime();
 
