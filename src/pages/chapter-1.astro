@@ -15,6 +15,7 @@ import Layout from "../layouts/Layout.astro";
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
   import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
   import GUI from "lil-gui";
+  import gsap from "gsap";
 
   const canvasContainer = document.querySelector("#chapter-1-canvas-container");
   const canvas = document.querySelector("#chapter-1-canvas-container canvas");
@@ -57,6 +58,7 @@ import Layout from "../layouts/Layout.astro";
       0.1,
       100,
     );
+    camera.position.y = 1;
     camera.position.z = -8;
     camera.lookAt(0, 0, 0);
     scene.add(camera);
@@ -81,7 +83,7 @@ import Layout from "../layouts/Layout.astro";
     renderer.setSize(canvasDimensions.width, canvasDimensions.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // meshes
+    // balls
     const ball = new THREE.SphereGeometry(0.5, 32, 32);
     const ballMaterial = new THREE.MeshStandardMaterial({
       metalness: 1,
@@ -101,6 +103,48 @@ import Layout from "../layouts/Layout.astro";
     sphere4.position.x = 1;
     sphere5.position.x = 2;
 
+    // animation
+    const t = 1.75;
+
+    gsap // sphere 1 timeline
+      .timeline({
+        ease: "sinze.inOut",
+        repeat: -1,
+        repeatDelay: t,
+      })
+      .to(sphere1.position, {
+        duration: t / 2,
+        ease: "power1.out",
+        x: -4.5,
+        y: 0.5,
+      })
+      .to(sphere1.position, {
+        duration: t / 2,
+        ease: "power2.in",
+        x: -2,
+        y: 0,
+      });
+    gsap // sphere 5 timeline
+      .timeline({
+        ease: "sinze.inOut",
+        delay: t,
+        repeat: -1,
+        repeatDelay: t,
+      })
+      .to(sphere5.position, {
+        duration: t / 2,
+        ease: "power1.out",
+        x: 4.5,
+        y: 0.5,
+      })
+      .to(sphere5.position, {
+        duration: t / 2,
+        ease: "power2.in",
+        x: 2,
+        y: 0,
+      });
+
+    // base
     const baseLength = 6.75;
     const baseWidth = 3;
     const baseDepth = 0.25;
