@@ -93,6 +93,7 @@ import Layout from "../layouts/Layout.astro";
     const ballTweaks = gui.addFolder("ball");
     ballTweaks.add(ballMaterial, "metalness").min(0).max(1).step(0.0001);
     ballTweaks.add(ballMaterial, "roughness").min(0).max(1).step(0.0001);
+    ballTweaks.addColor(ballMaterial, "color");
 
     const [sphere1, sphere2, sphere3, sphere4, sphere5] = Array(5)
       .fill(null)
