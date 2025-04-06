@@ -3,13 +3,98 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Variable Fonts | Playground">
-  <main class="min-h-screen w-full">
-    <div class="flex h-screen w-full items-center justify-center">
-      <div
-        class="flex h-96 w-96 items-center justify-center bg-[#0000cb] text-2xl text-[#ff6200]"
-      >
-        a
+  <main class="min-h-screen w-full px-5">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="flex h-screen w-full items-center justify-center gap-x-14">
+        <div
+          id="green-pink-container"
+          class="font-roboto flex w-[360px] flex-col items-center justify-center overflow-clip bg-[#1c7511] p-6 text-xl/[70%] text-[#ff98fb]"
+        >
+          {
+            Array(21)
+              .fill(null)
+              .map((_, idx) => (
+                <div>
+                  {Array(29)
+                    .fill(null)
+                    .map((_, idx2) =>
+                      // prettier-ignore
+                      <span style={{"--delay": `${Math.abs(idx2 - (Math.floor(29 / 2))) * 0.1 + Math.abs(idx - (Math.floor(21 / 2))) * 0.2}s`}}>a</span>,
+                    )}
+                </div>
+              ))
+          }
+        </div>
+        <div
+          id="blue-orange-container"
+          class="font-roboto flex w-[648px] flex-col items-center justify-center overflow-clip bg-[#0000cb] p-8 text-center text-2xl/[70%] text-[#ff6200]"
+        >
+          {
+            Array(4)
+              .fill(null)
+              .map((_, idx) => (
+                <div>
+                  {Array(8)
+                    .fill(null)
+                    .map((_, idx2) => (
+                      <div
+                        class:list={[idx % 2 === 1 && "flex flex-row-reverse"]}
+                      >
+                        {Array(48)
+                          .fill(null)
+                          .map((_, idx3) =>
+                            // prettier-ignore
+                            <span style={{"--delay": `${idx3 * 0.1 + idx2 * 0.275}s`}}>a</span>,
+                          )}
+                      </div>
+                    ))}
+                </div>
+              ))
+          }
+        </div>
       </div>
     </div>
   </main>
 </Layout>
+
+<style>
+  #green-pink-container span {
+    animation: 1.2s linear infinite forwards fontLoop1;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes fontLoop1 {
+    0%,
+    100% {
+      font-variation-settings:
+        "wght" 900,
+        "wdth" 100;
+    }
+
+    50% {
+      font-variation-settings:
+        "wght" 100,
+        "wdth" 75;
+    }
+  }
+
+  #blue-orange-container span {
+    animation: 1.2s linear infinite forwards fontLoop2;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes fontLoop2 {
+    0%,
+    100% {
+      font-variation-settings:
+        "wght" 900,
+        "wdth" 100;
+    }
+
+    50% {
+      font-variation-settings:
+        "wght" 100,
+        "wdth" 75;
+    }
+  }
+</style>
