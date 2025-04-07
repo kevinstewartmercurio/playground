@@ -1,0 +1,107 @@
+---
+import { Image } from "astro:assets";
+
+import Layout from "../layouts/Layout.astro";
+
+import card1Image from "../images/card-helix/abstract-card-1.png";
+import card2Image from "../images/card-helix/abstract-card-2.png";
+import card3Image from "../images/card-helix/abstract-card-3.png";
+import card4Image from "../images/card-helix/abstract-card-4.png";
+---
+
+<Layout title="Card Helix | Astro">
+  <main class="min-h-screen w-full">
+    <div id="scroll-container" class="relative h-[600vh] w-full">
+      {
+        Array(12)
+          .fill(null)
+          .map((_, idx) => (
+            <div class="absolute top-0 h-full w-full">
+              <div class="card-y-container sticky top-0 h-screen w-full translate-y-full">
+                <div class="card-x-container flex h-full w-full -translate-x-[25%] justify-center">
+                  <div class="card h-96 w-64 overflow-clip rounded-lg bg-green-600/60">
+                    <Image
+                      src={
+                        idx % 4 === 0
+                          ? card1Image
+                          : idx % 4 === 1
+                            ? card2Image
+                            : idx % 4 === 2
+                              ? card3Image
+                              : card4Image
+                      }
+                      alt=""
+                      class="h-full w-full object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+      }
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { animate, scroll } from "motion";
+
+  const scrollContainer = document.querySelector("#scroll-container");
+  const cardYContainers = document.querySelectorAll(".card-y-container");
+  const cardXContainers = document.querySelectorAll(".card-x-container");
+  const cards = document.querySelectorAll(".card");
+
+  const cardSeparation = 0.03375;
+
+  if (scrollContainer instanceof HTMLDivElement) {
+    cardYContainers.forEach((container, idx) => {
+      if (container instanceof HTMLDivElement) {
+        scroll(animate(container, { transform: "translateY(-100%)" }), {
+          target: scrollContainer,
+          offset: [
+            `${idx * cardSeparation} 0`,
+            `${1 - (cardYContainers.length - 1 - idx) * cardSeparation} 1`,
+          ],
+        });
+      }
+    });
+
+    cardXContainers.forEach((container, idx) => {
+      if (container instanceof HTMLDivElement) {
+        scroll(
+          animate(container, {
+            transform: [
+              "translateX(-20%)",
+              "translateX(25%)",
+              "translateX(-45%)",
+            ],
+          }),
+          {
+            target: scrollContainer,
+            offset: [
+              `${idx * cardSeparation} 0`,
+              `${1 - (cardXContainers.length - 1 - idx) * cardSeparation} 1`,
+            ],
+          },
+        );
+      }
+    });
+
+    cards.forEach((card, idx) => {
+      if (card instanceof HTMLDivElement) {
+        scroll(
+          animate(card, {
+            transform: ["rotateY(0deg)", "rotateY(270deg)", "rotateY(540deg)"],
+          }),
+          {
+            target: scrollContainer,
+            offset: [
+              `${idx * cardSeparation} 0`,
+              `${1 - (cards.length - 1 - idx) * cardSeparation} 1`,
+            ],
+          },
+        );
+      }
+    });
+  }
+</script>
