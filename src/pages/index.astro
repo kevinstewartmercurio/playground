@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import ProjectCard from "../components/project-card.astro";
 
 import chapter1Mp4 from "/videos/chapter-1.mp4";
+import variableFontsMp4 from "/videos/variable-fonts.mp4";
 ---
 
 <Layout title="Playground">
@@ -10,13 +11,21 @@ import chapter1Mp4 from "/videos/chapter-1.mp4";
     <div
       class="mx-auto flex h-screen w-full max-w-[1536px] items-center justify-center"
     >
-      <ProjectCard
-        href="/chapter-1"
-        src={chapter1Mp4}
-        title="Newton Balls"
-        gsap
-        threejs
-      />
+      <ul class="grid grid-cols-3 items-center justify-center gap-x-6 gap-y-4">
+        <ProjectCard
+          href="/chapter-1"
+          src={chapter1Mp4}
+          title="Newton Balls"
+          gsap
+          threejs
+        />
+        <ProjectCard
+          href="/variable-fonts"
+          src={variableFontsMp4}
+          title="Variable Fonts"
+          css
+        />
+      </ul>
     </div>
   </main>
 </Layout>
