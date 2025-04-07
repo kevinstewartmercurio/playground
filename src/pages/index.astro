@@ -1,22 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ProjectCard from "../components/project-card.astro";
+
+import chapter1Mp4 from "/videos/chapter-1.mp4";
 ---
 
 <Layout title="Playground">
-  <main class="min-h-screen w-full">
-    <div class="flex h-screen w-full items-center justify-center">
-      <ul class="list-disc text-white">
-        <li>
-          <a href="/chapter-1" class="hover:underline focus:underline"
-            >Chapter 1</a
-          >
-        </li>
-        <li>
-          <a href="/variable-fonts" class="hover:underline focus:underline"
-            >Variable Fonts</a
-          >
-        </li>
-      </ul>
+  <main class="min-h-screen w-full px-5">
+    <div
+      class="mx-auto flex h-screen w-full max-w-[1536px] items-center justify-center"
+    >
+      <ProjectCard
+        href="/chapter-1"
+        src={chapter1Mp4}
+        title="Newton Balls"
+        gsap
+        threejs
+      />
     </div>
   </main>
 </Layout>
