@@ -1,10 +1,13 @@
 ---
+import { Image } from "astro:assets";
+
 type Props = {
   href: string;
   src: string;
   title: string;
   css?: boolean;
   gsap?: boolean;
+  motion?: boolean;
   threejs?: boolean;
 };
 
@@ -14,8 +17,11 @@ const {
   title,
   css = false,
   gsap = false,
+  motion = false,
   threejs = false,
 } = Astro.props;
+
+import motionLogoImage from "../images/icons/motion.png";
 
 const cssStr =
   "https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white";
@@ -25,6 +31,7 @@ const threejsStr =
   "https://img.shields.io/badge/ThreeJs-black?style=for-the-badge&logo=three.js&logoColor=white";
 ---
 
+<!-- 384:288, 2x = 768:576, 3x = 1152:864 -->
 <a
   href={href}
   class="flex w-96 flex-col overflow-clip rounded-lg bg-gray-700/50 transition duration-500 hover:scale-[1.025] focus:scale-[1.025]"
@@ -45,9 +52,37 @@ const threejsStr =
       {title}
     </h2>
     <ul class="mt-2 flex flex-wrap gap-x-2 gap-y-1">
-      {css && <img src={cssStr} alt="" class="rounded-md" />}
-      {gsap && <img src={gsapStr} alt="" class="rounded-md" />}
-      {threejs && <img src={threejsStr} alt="" class="rounded-md" />}
+      {
+        css && (
+          <li>
+            <img src={cssStr} alt="" class="rounded-md" />
+          </li>
+        )
+      }
+      {
+        gsap && (
+          <li>
+            <img src={gsapStr} alt="" class="rounded-md" />
+          </li>
+        )
+      }
+      {
+        motion && (
+          <li class="flex h-7 items-center gap-x-2 rounded-md bg-[#080808] px-2">
+            <Image src={motionLogoImage} alt="Motion" class="h-3 w-3" />
+            <span class="font-sans text-[0.6875rem]/[100%] font-semibold uppercase tracking-wider text-white">
+              Motion
+            </span>
+          </li>
+        )
+      }
+      {
+        threejs && (
+          <li>
+            <img src={threejsStr} alt="" class="rounded-md" />
+          </li>
+        )
+      }
     </ul>
   </div>
 </a>

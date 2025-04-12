@@ -4,6 +4,7 @@ import ProjectCard from "../components/project-card.astro";
 
 import chapter1Mp4 from "/videos/chapter-1.mp4";
 import variableFontsMp4 from "/videos/variable-fonts.mp4";
+import cardHelixMp4 from "/videos/card-helix.mp4";
 ---
 
 <Layout title="Playground">
@@ -24,6 +25,12 @@ import variableFontsMp4 from "/videos/variable-fonts.mp4";
           src={variableFontsMp4}
           title="Variable Fonts"
           css
+        />
+        <ProjectCard
+          href="/card-helix"
+          src={cardHelixMp4}
+          title="Card Helix"
+          motion
         />
       </ul>
     </div>
