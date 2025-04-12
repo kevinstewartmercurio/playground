@@ -11,7 +11,10 @@ import card4Image from "../images/card-helix/abstract-card-4.png";
 
 <Layout title="Card Helix | Astro">
   <main class="min-h-screen w-full">
-    <div id="scroll-container" class="relative h-[600vh] w-full">
+    <div
+      id="scroll-container"
+      class="relative h-[600vh] w-full overflow-x-clip"
+    >
       {
         Array(12)
           .fill(null)
@@ -68,19 +71,24 @@ import card4Image from "../images/card-helix/abstract-card-4.png";
 
     cardXContainers.forEach((container, idx) => {
       if (container instanceof HTMLDivElement) {
+        console.log(
+          `${idx * cardSeparation} 0`,
+          ";",
+          `${(1 - (cardXContainers.length - 1 - idx) * cardSeparation).toFixed(2)} 1`,
+        );
         scroll(
           animate(container, {
             transform: [
-              "translateX(-20%)",
-              "translateX(25%)",
-              "translateX(-45%)",
+              "translateX(-15%)",
+              "translateX(15%)",
+              "translateX(-15%)",
             ],
           }),
           {
             target: scrollContainer,
             offset: [
               `${idx * cardSeparation} 0`,
-              `${1 - (cardXContainers.length - 1 - idx) * cardSeparation} 1`,
+              `${1 - (cardXContainers.length - 1 - idx) * cardSeparation} 1.75`,
             ],
           },
         );
