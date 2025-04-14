@@ -2,9 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import ProjectCard from "../components/project-card.astro";
 
-import chapter1Mp4 from "/videos/chapter-1.mp4";
-import variableFontsMp4 from "/videos/variable-fonts.mp4";
 import cardHelixMp4 from "/videos/card-helix.mp4";
+import chapter1Mp4 from "/videos/chapter-1.mp4";
+import chapter2Mp4 from "/videos/chapter-2.mp4";
+import variableFontsMp4 from "/videos/variable-fonts.mp4";
 ---
 
 <Layout title="Playground">
@@ -14,7 +15,7 @@ import cardHelixMp4 from "/videos/card-helix.mp4";
     >
       <ul class="grid grid-cols-3 items-center justify-center gap-x-6 gap-y-4">
         <ProjectCard
-          href="/chapter-1"
+          href="/threejs-journey/chapter-1"
           src={chapter1Mp4}
           title="Chapter 1 - Three.js Journey"
           gsap
@@ -31,6 +32,12 @@ import cardHelixMp4 from "/videos/card-helix.mp4";
           src={cardHelixMp4}
           title="Card Helix"
           motion
+        />
+        <ProjectCard
+          href="/threejs-journey/chapter-2"
+          src={chapter2Mp4}
+          title="Chapter 2 - Three.js Journey"
+          threejs
         />
       </ul>
     </div>
