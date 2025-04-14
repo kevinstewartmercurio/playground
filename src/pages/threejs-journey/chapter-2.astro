@@ -33,19 +33,19 @@ import Layout from "../../layouts/Layout.astro";
 
     // floor
     const floorAlphaTexture = textureLoader.load(
-      "src/images/chapter-2/floor/alpha.webp",
+      "/textures/chapter-2/floor/alpha.webp",
     );
     const floorColorTexture = textureLoader.load(
-      "src/images/chapter-2/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.webp",
+      "/textures/chapter-2/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.webp",
     );
     const floorARMTexture = textureLoader.load(
-      "src/images/chapter-2/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.webp",
+      "/textures/chapter-2/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.webp",
     );
     const floorNormalTexture = textureLoader.load(
-      "src/images/chapter-2/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.webp",
+      "/textures/chapter-2/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.webp",
     );
     const floorDisplacementTexture = textureLoader.load(
-      "src/images/chapter-2/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_disp_1k.webp",
+      "/textures/chapter-2/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_disp_1k.webp",
     );
 
     floorColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -66,26 +66,26 @@ import Layout from "../../layouts/Layout.astro";
 
     // wall
     const wallColorTexture = textureLoader.load(
-      "src/images/chapter-2/wall/castle_brick_broken_06_1k/castle_brick_broken_06_diff_1k.webp",
+      "/textures/chapter-2/wall/castle_brick_broken_06_1k/castle_brick_broken_06_diff_1k.webp",
     );
     const wallARMTexture = textureLoader.load(
-      "src/images/chapter-2/wall/castle_brick_broken_06_1k/castle_brick_broken_06_arm_1k.webp",
+      "/textures/chapter-2/wall/castle_brick_broken_06_1k/castle_brick_broken_06_arm_1k.webp",
     );
     const wallNormalTexture = textureLoader.load(
-      "src/images/chapter-2/wall/castle_brick_broken_06_1k/castle_brick_broken_06_nor_gl_1k.webp",
+      "/textures/chapter-2/wall/castle_brick_broken_06_1k/castle_brick_broken_06_nor_gl_1k.webp",
     );
 
     wallColorTexture.colorSpace = THREE.SRGBColorSpace;
 
     // roof
     const roofColorTexture = textureLoader.load(
-      "src/images/chapter-2/roof/roof_slates_02_1k/roof_slates_02_diff_1k.webp",
+      "/textures/chapter-2/roof/roof_slates_02_1k/roof_slates_02_diff_1k.webp",
     );
     const roofARMTexture = textureLoader.load(
-      "src/images/chapter-2/roof/roof_slates_02_1k/roof_slates_02_arm_1k.webp",
+      "/textures/chapter-2/roof/roof_slates_02_1k/roof_slates_02_arm_1k.webp",
     );
     const roofNormalTexture = textureLoader.load(
-      "src/images/chapter-2/roof/roof_slates_02_1k/roof_slates_02_nor_gl_1k.webp",
+      "/textures/chapter-2/roof/roof_slates_02_1k/roof_slates_02_nor_gl_1k.webp",
     );
 
     roofColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -100,13 +100,13 @@ import Layout from "../../layouts/Layout.astro";
 
     // bushes
     const bushColorTexture = textureLoader.load(
-      "src/images/chapter-2/bush/leaves_forest_ground_1k/leaves_forest_ground_diff_1k.webp",
+      "/textures/chapter-2/bush/leaves_forest_ground_1k/leaves_forest_ground_diff_1k.webp",
     );
     const bushARMTexture = textureLoader.load(
-      "src/images/chapter-2/bush/leaves_forest_ground_1k/leaves_forest_ground_arm_1k.webp",
+      "/textures/chapter-2/bush/leaves_forest_ground_1k/leaves_forest_ground_arm_1k.webp",
     );
     const bushNormalTexture = textureLoader.load(
-      "src/images/chapter-2/bush/leaves_forest_ground_1k/leaves_forest_ground_nor_gl_1k.webp",
+      "/textures/chapter-2/bush/leaves_forest_ground_1k/leaves_forest_ground_nor_gl_1k.webp",
     );
 
     bushColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -121,13 +121,13 @@ import Layout from "../../layouts/Layout.astro";
 
     // graves
     const graveColorTexture = textureLoader.load(
-      "src/images/chapter-2/grave/plastered_stone_wall_1k/plastered_stone_wall_diff_1k.webp",
+      "/textures/chapter-2/grave/plastered_stone_wall_1k/plastered_stone_wall_diff_1k.webp",
     );
     const graveARMTexture = textureLoader.load(
-      "src/images/chapter-2/grave/plastered_stone_wall_1k/plastered_stone_wall_arm_1k.webp",
+      "/textures/chapter-2/grave/plastered_stone_wall_1k/plastered_stone_wall_arm_1k.webp",
     );
     const graveNormalTexture = textureLoader.load(
-      "src/images/chapter-2/grave/plastered_stone_wall_1k/plastered_stone_wall_nor_gl_1k.webp",
+      "/textures/chapter-2/grave/plastered_stone_wall_1k/plastered_stone_wall_nor_gl_1k.webp",
     );
 
     graveColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -138,25 +138,25 @@ import Layout from "../../layouts/Layout.astro";
 
     // door
     const doorColorTexture = textureLoader.load(
-      "src/images/chapter-2/door/color.webp",
+      "/textures/chapter-2/door/color.webp",
     );
     const doorAlphaTexture = textureLoader.load(
-      "src/images/chapter-2/door/alpha.webp",
+      "/textures/chapter-2/door/alpha.webp",
     );
     const doorAmbientOcclusionTexture = textureLoader.load(
-      "src/images/chapter-2/door/ambientOcclusion.webp",
+      "/textures/chapter-2/door/ambientOcclusion.webp",
     );
     const doorHeightTexture = textureLoader.load(
-      "src/images/chapter-2/door/height.webp",
+      "/textures/chapter-2/door/height.webp",
     );
     const doorNormalTexture = textureLoader.load(
-      "src/images/chapter-2/door/normal.webp",
+      "/textures/chapter-2/door/normal.webp",
     );
     const doorMetalnessTexture = textureLoader.load(
-      "src/images/chapter-2/door/metalness.webp",
+      "/textures/chapter-2/door/metalness.webp",
     );
     const doorRoughnessTexture = textureLoader.load(
-      "src/images/chapter-2/door/roughness.webp",
+      "/textures/chapter-2/door/roughness.webp",
     );
 
     doorColorTexture.colorSpace = THREE.SRGBColorSpace;
