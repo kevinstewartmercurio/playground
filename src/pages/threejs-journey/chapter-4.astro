@@ -1,0 +1,155 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Chapter 4 | Playground">
+  <main class="min-h-screen w-full">
+    <div id="chapter-4-canvas-container" class="relative min-h-screen w-full">
+      <canvas></canvas>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import * as THREE from "three";
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+  import GUI from "lil-gui";
+  import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
+
+  import sphereVertexShader from "../../shaders/sphere/vertex.glsl";
+  import sphereFragmentShader from "../../shaders/sphere/fragment.glsl";
+
+  const canvasContainer = document.querySelector("#chapter-4-canvas-container");
+  const canvas = document.querySelector("#chapter-4-canvas-container canvas");
+
+  if (
+    canvasContainer instanceof HTMLDivElement &&
+    canvas instanceof HTMLCanvasElement
+  ) {
+    // gui
+    const gui = new GUI();
+    const sphereTweaks = gui.addFolder("sphere");
+
+    // scene
+    const scene = new THREE.Scene();
+
+    // environment map
+    const rgbeLoader = new RGBELoader();
+    let envMap: THREE.DataTexture;
+
+    rgbeLoader.load("/hdrs/studio.hdr", (environmentMap) => {
+      environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+      envMap = environmentMap;
+
+      scene.background = environmentMap;
+      scene.environment = environmentMap;
+    });
+
+    // sphere
+    const sphereParams = {
+      segments: 64,
+      size: 3,
+    };
+
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(sphereParams.size, sphereParams.segments),
+      new THREE.ShaderMaterial({
+        vertexShader: sphereVertexShader,
+        fragmentShader: sphereFragmentShader,
+        uniforms: {
+          uTime: { value: 0 },
+
+          uEnvMap: { value: envMap },
+        },
+        wireframe: false,
+      }),
+    );
+    scene.add(sphere);
+
+    sphereTweaks
+      .add(sphereParams, "segments")
+      .min(12)
+      .max(128)
+      .step(1)
+      .name("segments")
+      .onChange((value: number) => {
+        sphere.geometry.dispose();
+        sphere.geometry = new THREE.SphereGeometry(sphereParams.size, value);
+      });
+    sphereTweaks
+      .add(sphereParams, "size")
+      .min(1)
+      .max(8)
+      .step(0.01)
+      .name("size")
+      .onChange((value: number) => {
+        sphere.geometry.dispose();
+        sphere.geometry = new THREE.SphereGeometry(
+          value,
+          sphereParams.segments,
+        );
+      });
+    sphereTweaks.add(sphere.material, "wireframe");
+
+    const torus = new THREE.Mesh(
+      new THREE.TorusGeometry(10, 1),
+      new THREE.MeshStandardMaterial({
+        color: "green",
+      }),
+    );
+    scene.add(torus);
+
+    // camera and renderer
+    const sizes = {
+      width: canvasContainer.getBoundingClientRect().width,
+      height: canvasContainer.getBoundingClientRect().height,
+    };
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+    });
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      sizes.width / sizes.height,
+      0.1,
+      100,
+    );
+    camera.position.z = 10;
+    scene.add(camera);
+
+    window.addEventListener("resize", () => {
+      (sizes.width = canvasContainer.getBoundingClientRect().width),
+        (sizes.height = canvasContainer.getBoundingClientRect().height);
+
+      camera.aspect = sizes.width / sizes.height;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(sizes.width, sizes.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
+
+    // controls
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+
+    // animation
+    const clock = new THREE.Clock();
+
+    const tick = () => {
+      const elapsedTime = clock.getElapsedTime();
+
+      sphere.material.uniforms.uTime.value = elapsedTime;
+
+      controls.update();
+
+      renderer.render(scene, camera);
+
+      window.requestAnimationFrame(tick);
+    };
+
+    tick();
+  }
+</script>
