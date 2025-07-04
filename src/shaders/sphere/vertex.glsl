@@ -1,13 +1,13 @@
 uniform float uTime;
+uniform float uAmplitude;
 
 varying vec3 vReflect;
 
 void main() {
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
-    float elevation = sin(modelPosition.x + uTime);
-    modelPosition.y += cos(modelPosition.x + uTime);
-    modelPosition.z += elevation;
+    modelPosition.y += cos(modelPosition.x + uTime) * uAmplitude;
+    modelPosition.z += sin(modelPosition.x + uTime) * uAmplitude;
 
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
