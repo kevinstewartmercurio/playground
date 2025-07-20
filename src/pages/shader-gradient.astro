@@ -1,0 +1,117 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Shader Gradient | Playground">
+  <main class="min-h-screen w-full">
+    <div id="shader-gradient-container" class="relative min-h-screen w-full">
+      <canvas></canvas>
+      <div
+        class="absolute left-0 top-0 z-10 h-full w-full bg-[#0a3834] [mask-image:linear-gradient(to_bottom,transparent,black)]"
+      >
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import * as THREE from "three";
+  import GUI from "lil-gui";
+
+  import shaderGradientVertexShader from "../shaders/gradient/vertex.glsl";
+  import shaderGradientFragmentShader from "../shaders/gradient/fragment.glsl";
+
+  const canvasContainer = document.getElementById("shader-gradient-container");
+  const canvas = document.querySelector("#shader-gradient-container canvas");
+
+  if (
+    canvasContainer instanceof HTMLDivElement &&
+    canvas instanceof HTMLCanvasElement
+  ) {
+    const gui = new GUI();
+
+    const scene = new THREE.Scene();
+
+    const planeGeometry = new THREE.PlaneGeometry(8, 8);
+
+    const planeMaterialParams = {
+      colorA: "#5fc49d",
+      colorB: "#bc2929",
+    };
+    const planeMaterial = new THREE.ShaderMaterial({
+      vertexShader: shaderGradientVertexShader,
+      fragmentShader: shaderGradientFragmentShader,
+      uniforms: {
+        uTime: new THREE.Uniform(0),
+        uResolution: new THREE.Uniform(
+          new THREE.Vector2(
+            canvasContainer.getBoundingClientRect().width,
+            canvasContainer.getBoundingClientRect().height,
+          ),
+        ),
+
+        uColorA: new THREE.Uniform(new THREE.Color(planeMaterialParams.colorA)),
+        uColorB: new THREE.Uniform(new THREE.Color(planeMaterialParams.colorB)),
+      },
+      side: THREE.DoubleSide,
+    });
+
+    gui.addColor(planeMaterialParams, "colorA").onChange(() => {
+      planeMaterial.uniforms.uColorA.value.set(planeMaterialParams.colorA);
+    });
+    gui.addColor(planeMaterialParams, "colorB").onChange(() => {
+      planeMaterial.uniforms.uColorB.value.set(planeMaterialParams.colorB);
+    });
+
+    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+    scene.add(plane);
+
+    const sizes = {
+      width: canvasContainer.getBoundingClientRect().width,
+      height: canvasContainer.getBoundingClientRect().height,
+    };
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+    });
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      sizes.width / sizes.height,
+      0.1,
+      100,
+    );
+    camera.position.z = 3;
+    scene.add(camera);
+
+    window.addEventListener("resize", () => {
+      (sizes.width = canvasContainer.getBoundingClientRect().width),
+        (sizes.height = canvasContainer.getBoundingClientRect().height);
+
+      planeMaterial.uniforms.uResolution.value.x = sizes.width;
+      planeMaterial.uniforms.uResolution.value.y = sizes.height;
+
+      camera.aspect = sizes.width / sizes.height;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(sizes.width, sizes.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
+
+    const clock = new THREE.Clock();
+
+    const tick = () => {
+      const elapsedTime = clock.getElapsedTime();
+
+      planeMaterial.uniforms.uTime.value = elapsedTime;
+
+      renderer.render(scene, camera);
+
+      window.requestAnimationFrame(tick);
+    };
+
+    tick();
+  }
+</script>
